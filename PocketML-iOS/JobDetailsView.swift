@@ -48,7 +48,7 @@ struct JobDetailsView: View {
                     vm.refresh()
                 }
             }
-            ActionsWidget()
+            ActionsWidget(vm: vm)
             Divider().background(Color.background)
         }.modifier(MainVStackModifier())
     }
@@ -224,30 +224,35 @@ func Config(_ job: ComplexJob) -> some View {
         
     }
     
-    func ActionButton(action:String) -> some View{
-        ZStack{
-            
-            Text(action)
-                .foregroundColor(Color.main)
-                .frame(width: 100, height: 50)
-                .background(RoundedRectangle(cornerRadius: 25)
-                    .fill(Color.background))
-                .padding()
-        }
+func ActionButton(_ vm: JobDetailsViewModel, action: Action) -> some View {
+    Button {
+        vm.action(action: action)
+    } label: {
+        Text(action.rawValue)
+            .foregroundColor(Color.main)
+            .frame(width: 100, height: 50)
+            .background(RoundedRectangle(cornerRadius: 25)
+                .fill(Color.background))
+            .padding()
     }
-    
-    func ActionsWidget() -> some View{
+}
+
+func ActionsWidget(vm: JobDetailsViewModel) -> some View{
         Section(){
             VStack{
                 Text("Actions")
                     .modifier(TitleModifier())
                     .padding(.bottom, -25)
                 HStack(spacing:1){
-                    ActionButton(action:"Start")
+                    ActionButton(vm, action: .start)
                         .padding(.leading)
-                    ActionButton(action:"Stop")
+                    
+                    Spacer()
+                    
+                    ActionButton(vm, action: .stop)
+                        .padding(.trailing)
+                    
 //                    ActionButton(action:"Pause")
-//                        .padding(.trailing)
                     
                 }
                 

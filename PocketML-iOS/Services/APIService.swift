@@ -82,4 +82,24 @@ class APIService {
         }
     }
 
+    func submitAction(_ id: Int, action: Action, updates: [String : String]) {
+        let headers: HTTPHeaders = [
+            "email": "a@a.com",
+//                "password": "password",
+        ]
+        
+        let params: Parameters = [
+            "action": action.rawValue,
+            "updates": updates
+        ]
+        
+        AF.request(baseURL + "/jobs/" + String(id) + "/submit_action", method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers)
+            .cURLDescription { description in
+                print(description)
+            }
+            .response(completionHandler: { data in
+                debugPrint(data)
+            })
+            .validate()
+    }
 }

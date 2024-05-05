@@ -28,3 +28,9 @@ struct ComplexJob: Identifiable, Codable {
     let wandb_link: String
     let start_time: Int
 }
+
+enum Action: String, Codable {
+    case start
+//    case pause
+    case stop
+}

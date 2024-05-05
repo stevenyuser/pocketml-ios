@@ -26,4 +26,8 @@ class JobDetailsViewModel: ObservableObject {
                 self.job = await APIService.shared.getSpecificJob(id: id)
         }
     }
+    
+    func action(action: Action) {
+        APIService.shared.submitAction(id, action: action, updates: job?.config ?? [:])
+    }
 }

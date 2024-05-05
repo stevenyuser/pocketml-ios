@@ -21,8 +21,8 @@
 		C08D4D9C2BE71B37000AA717 /* ScriptsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4D9B2BE71B37000AA717 /* ScriptsView.swift */; };
 		C08D4D9E2BE71B4E000AA717 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4D9D2BE71B4E000AA717 /* Structures.swift */; };
 		C08D4DA02BE71B62000AA717 /* ScriptsDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4D9F2BE71B62000AA717 /* ScriptsDetailsView.swift */; };
-		C08D4DA32BE71B83000AA717 /* JobsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DA22BE71B83000AA717 /* JobsVM.swift */; };
-		C08D4DA52BE71B90000AA717 /* JobsInfoVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DA42BE71B90000AA717 /* JobsInfoVM.swift */; };
+		C08D4DA32BE71B83000AA717 /* JobDashboardVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DA22BE71B83000AA717 /* JobDashboardVM.swift */; };
+		C08D4DA52BE71B90000AA717 /* JobsDetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DA42BE71B90000AA717 /* JobsDetailsVM.swift */; };
 		C08D4DA82BE71C2C000AA717 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C08D4DA72BE71C2C000AA717 /* FirebaseAnalytics */; };
 		C08D4DAA2BE71C2C000AA717 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = C08D4DA92BE71C2C000AA717 /* FirebaseAnalyticsOnDeviceConversion */; };
 		C08D4DAC2BE71C2C000AA717 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C08D4DAB2BE71C2C000AA717 /* FirebaseAnalyticsSwift */; };
@@ -52,6 +52,10 @@
 		C08D4DDC2BE71C2C000AA717 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = C08D4DDB2BE71C2C000AA717 /* FirebaseStorageCombine-Community */; };
 		C08D4DDF2BE71C54000AA717 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = C08D4DDE2BE71C53000AA717 /* Alamofire */; };
 		C08D4DE12BE71C54000AA717 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = C08D4DE02BE71C54000AA717 /* AlamofireDynamic */; };
+		C08D4DE32BE723EF000AA717 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C08D4DE22BE723EF000AA717 /* GoogleService-Info.plist */; };
+		C08D4DE52BE7265C000AA717 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DE42BE7265C000AA717 /* APIService.swift */; };
+		C08D4DE92BE72755000AA717 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DE82BE72755000AA717 /* Response.swift */; };
+		C08D4DEB2BE72CE1000AA717 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08D4DEA2BE72CE1000AA717 /* Job.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,8 +74,12 @@
 		C08D4D9B2BE71B37000AA717 /* ScriptsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptsView.swift; sourceTree = "<group>"; };
 		C08D4D9D2BE71B4E000AA717 /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
 		C08D4D9F2BE71B62000AA717 /* ScriptsDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptsDetailsView.swift; sourceTree = "<group>"; };
-		C08D4DA22BE71B83000AA717 /* JobsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsVM.swift; sourceTree = "<group>"; };
-		C08D4DA42BE71B90000AA717 /* JobsInfoVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsInfoVM.swift; sourceTree = "<group>"; };
+		C08D4DA22BE71B83000AA717 /* JobDashboardVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobDashboardVM.swift; sourceTree = "<group>"; };
+		C08D4DA42BE71B90000AA717 /* JobsDetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobsDetailsVM.swift; sourceTree = "<group>"; };
+		C08D4DE22BE723EF000AA717 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C08D4DE42BE7265C000AA717 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		C08D4DE82BE72755000AA717 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		C08D4DEA2BE72CE1000AA717 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,11 +141,12 @@
 		C08D4D7E2BE71A3D000AA717 /* PocketML-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				C08D4DA12BE71B73000AA717 /* ViewModel */,
+				C08D4DE72BE72735000AA717 /* Services */,
+				C08D4DE62BE72728000AA717 /* Models */,
+				C08D4DA12BE71B73000AA717 /* ViewModels */,
 				C08D4D7F2BE71A3D000AA717 /* PocketML_iOSApp.swift */,
 				C08D4D8D2BE71AA5000AA717 /* TabNavigatorView.swift */,
 				C08D4D8F2BE71AB7000AA717 /* UserLoginView.swift */,
-				C08D4D912BE71AC9000AA717 /* AuthenticationManager.swift */,
 				C08D4D932BE71ADC000AA717 /* JobDashboardView.swift */,
 				C08D4D952BE71AEC000AA717 /* JobDetailsView.swift */,
 				C08D4D972BE71AFE000AA717 /* ClustersView.swift */,
@@ -145,8 +154,8 @@
 				C08D4D812BE71A3D000AA717 /* ContentView.swift */,
 				C08D4D832BE71A3F000AA717 /* Assets.xcassets */,
 				C08D4D9B2BE71B37000AA717 /* ScriptsView.swift */,
-				C08D4D9D2BE71B4E000AA717 /* Structures.swift */,
 				C08D4D9F2BE71B62000AA717 /* ScriptsDetailsView.swift */,
+				C08D4DE22BE723EF000AA717 /* GoogleService-Info.plist */,
 				C08D4D852BE71A3F000AA717 /* Preview Content */,
 			);
 			path = "PocketML-iOS";
@@ -160,13 +169,32 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		C08D4DA12BE71B73000AA717 /* ViewModel */ = {
+		C08D4DA12BE71B73000AA717 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				C08D4DA22BE71B83000AA717 /* JobsVM.swift */,
-				C08D4DA42BE71B90000AA717 /* JobsInfoVM.swift */,
+				C08D4DA22BE71B83000AA717 /* JobDashboardVM.swift */,
+				C08D4DA42BE71B90000AA717 /* JobsDetailsVM.swift */,
 			);
-			path = ViewModel;
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C08D4DE62BE72728000AA717 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C08D4D9D2BE71B4E000AA717 /* Structures.swift */,
+				C08D4DE82BE72755000AA717 /* Response.swift */,
+				C08D4DEA2BE72CE1000AA717 /* Job.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C08D4DE72BE72735000AA717 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C08D4D912BE71AC9000AA717 /* AuthenticationManager.swift */,
+				C08D4DE42BE7265C000AA717 /* APIService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +292,7 @@
 			files = (
 				C08D4D872BE71A3F000AA717 /* Preview Assets.xcassets in Resources */,
 				C08D4D842BE71A3F000AA717 /* Assets.xcassets in Resources */,
+				C08D4DE32BE723EF000AA717 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,17 +304,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				C08D4DA02BE71B62000AA717 /* ScriptsDetailsView.swift in Sources */,
+				C08D4DE52BE7265C000AA717 /* APIService.swift in Sources */,
 				C08D4D822BE71A3D000AA717 /* ContentView.swift in Sources */,
 				C08D4D942BE71ADC000AA717 /* JobDashboardView.swift in Sources */,
-				C08D4DA32BE71B83000AA717 /* JobsVM.swift in Sources */,
-				C08D4DA52BE71B90000AA717 /* JobsInfoVM.swift in Sources */,
+				C08D4DA32BE71B83000AA717 /* JobDashboardVM.swift in Sources */,
+				C08D4DA52BE71B90000AA717 /* JobsDetailsVM.swift in Sources */,
 				C08D4D902BE71AB7000AA717 /* UserLoginView.swift in Sources */,
 				C08D4D9C2BE71B37000AA717 /* ScriptsView.swift in Sources */,
+				C08D4DE92BE72755000AA717 /* Response.swift in Sources */,
 				C08D4D9A2BE71B15000AA717 /* ViewModifiers.swift in Sources */,
 				C08D4D802BE71A3D000AA717 /* PocketML_iOSApp.swift in Sources */,
 				C08D4D922BE71AC9000AA717 /* AuthenticationManager.swift in Sources */,
 				C08D4D9E2BE71B4E000AA717 /* Structures.swift in Sources */,
 				C08D4D982BE71AFE000AA717 /* ClustersView.swift in Sources */,
+				C08D4DEB2BE72CE1000AA717 /* Job.swift in Sources */,
 				C08D4D8E2BE71AA5000AA717 /* TabNavigatorView.swift in Sources */,
 				C08D4D962BE71AEC000AA717 /* JobDetailsView.swift in Sources */,
 			);

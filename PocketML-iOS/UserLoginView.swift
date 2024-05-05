@@ -48,6 +48,8 @@ struct UserLoginView: View {
                     )
                     .padding(.leading)
                     .padding(.trailing)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                 // password text field
                 SecureField("Password", text: $viewModel.password)
                     .padding(.horizontal)
@@ -58,6 +60,8 @@ struct UserLoginView: View {
                     )
                     .padding(.leading)
                     .padding(.trailing)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
                 // sign-in button
                 
                 /*NavigationLink {

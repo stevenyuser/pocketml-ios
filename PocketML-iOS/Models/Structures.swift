@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 // Job Structures
-struct Job: Identifiable{
+struct Job: Codable, Identifiable {
     var id = UUID()
     let jobTitle : String
     let completedEpochs : Double
@@ -20,7 +20,7 @@ struct Job: Identifiable{
     // TODO: let trainLoss : Double
 }
 
-struct Milestone : Identifiable {
+struct Milestone : Codable, Identifiable {
     var id = UUID()
     let type : String
     let targetValue : Double
@@ -28,7 +28,7 @@ struct Milestone : Identifiable {
 }
 
 // Script Structures
-struct Script: Identifiable {
+struct Script: Codable, Identifiable {
     var id = UUID()
     let scriptTitle : String
     let modelType : String
@@ -39,14 +39,14 @@ struct Script: Identifiable {
     //TODO more parameters, dropdown types, cluster deployments
 }
 
-struct ScriptGroup : Identifiable {
+struct ScriptGroup : Codable, Identifiable {
     var id = UUID()
     let groupName : String
     var scripts : [Script]
 }
 
 // Cluster Structures
-struct ClusterData: Identifiable {
+struct ClusterData: Codable, Identifiable {
     var id = UUID()
     var name: String = ""
     var port: Int = 0

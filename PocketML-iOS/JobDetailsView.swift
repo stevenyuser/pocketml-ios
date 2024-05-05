@@ -8,34 +8,33 @@
 import SwiftUI
 
 struct JobDetailsView: View {
-    @State private var isActive = true
-    @StateObject private var viewModel = JobInfoViewModel()
+    @StateObject private var vm: JobDetailsViewModel
     
-    var selectedJob : JobInfo
-    var selectedJobId : String
+    init(id: Int) {
+        self._vm = StateObject(wrappedValue: JobDetailsViewModel(id: id))
+    }
     
     var body: some View {
         VStack{
             ScrollView{
                 VStack(spacing:20){
                     
-                    JobTitle(selectedJob.name)
+                    if let job = vm.job {
+                        JobTitle(job)
+                        StatusDisplay(vm)
+                        WandbWidget(job)
+                        Config(job)
+                    } else {
+                        Text("Job doesn't exist")
+                    }
+                    
 //                    Text("Status")
 //                        .font(.title)
 //                        .padding(.bottom, -20)
 //                        .monospaced()
 //                        .foregroundStyle(Color.main)
-                    StatusDisplay(viewModel)
-                        .onAppear(){
-                            viewModel.fetchData(url: "http://10.48.85.83:8000/api/v1/jobs/" + selectedJobId)
-                        }
                         
 //                        ScriptWidget("<Script Title>")
-                    WandbWidget(viewModel)
-                        .onAppear(){
-                            viewModel.fetchData(url: "http://10.48.85.83:8000/api/v1/jobs/" + selectedJobId)
-                        }
-                   HyperparamConfig(viewModel)
                     // temporary points for graph
                     // will have to make a binding or attribute of a job
 //                    let _ : [CGFloat] = [0.92424, 0.82897, 0.67572894, 0.4280957984, 0.2438574, 0.188435794, 0.1348573, 0.067584938, 0.04423, 0.01423]
@@ -45,6 +44,9 @@ struct JobDetailsView: View {
 //                    MilestonesWidget()
 
                 }
+                .onAppear {
+                    vm.refresh()
+                }
             }
             ActionsWidget()
             Divider().background(Color.background)
@@ -53,8 +55,8 @@ struct JobDetailsView: View {
 }
 
 
-func JobTitle(_ text:String) -> some View {
-    Text(text)
+func JobTitle(_ job: ComplexJob) -> some View {
+    Text(job.name)
         .foregroundStyle(Color.background2)
 //        .padding(EdgeInsets(top:10,leading:100, bottom:10, trailing: 100 ))
         .background(Color.main)
@@ -65,33 +67,46 @@ func JobTitle(_ text:String) -> some View {
 }
 
 
-func StatusDisplay(_ viewModel: JobInfoViewModel) -> some View {
-    let active = viewModel.jobDetails?.active ?? true
+struct StatusDisplay: View {
+    @ObservedObject private var vm: JobDetailsViewModel
     
-    return HStack{
+    // mocking active for frontend only, doesn't actually update backend
+    @State private var active: Bool
+    
+    init(_ vm: JobDetailsViewModel) {
+        self._vm = ObservedObject(wrappedValue: vm)
+        active = vm.job?.active ?? true
+    }
+    
+    var body: some View {
         
-        Button("Active"){
-            //TODO: Change view model state to inactive
+        HStack{
+            Button("Active"){
+                active.toggle()
+            }
+            .foregroundStyle(active == true ? Color.main: Color.background2)
+            .monospaced()
+            .font(active == true ? .title2.bold() : .title2)
+            
+            Button("Inactive"){
+                active.toggle()
+            }
+            .font(.title2)
+            .monospaced()
+            .foregroundStyle(active == false ? Color.main: Color.background2)
+            .font(active == false ? .title2.bold() : .title2)
         }
-        .foregroundStyle(active == true ? Color.main: Color.background2)
-        .monospaced()
-        .font(active == true ? .title2.bold() : .title2)
-        
-        Button("Inactive"){
-            //TODO: Change view model state to active
+        .refreshable {
+            Task {
+                vm.refresh()
+            }
         }
-        .font(.title2)
-        .monospaced()
-        .foregroundStyle(active == false ? Color.main: Color.background2)
-        .font(active == false ? .title2.bold() : .title2)
     }
 }
 
-func WandbWidget(_ viewModel: JobInfoViewModel) -> some View {
-    let wandbLink = viewModel.jobDetails?.wandb.link ?? "Failed"
-
+func WandbWidget(_ job: ComplexJob) -> some View {
     return ZStack(alignment: .center) {
-        Link("View on WandB", destination: URL(string: wandbLink)!)
+        Link("View on WandB", destination: URL(string: job.wandb_link)!)
             .font(.title3)
             .frame(width: 300, height: 50)
             .foregroundColor(Color.main)
@@ -101,7 +116,7 @@ func WandbWidget(_ viewModel: JobInfoViewModel) -> some View {
     .padding(.trailing)
 }
 
-func HyperparamRow(_ key: String, _ value: String) -> some View{
+func ConfigRow(_ key: String, _ value: String) -> some View{
     // TODO: Add modifiers for color + font
     HStack{
         Text(key + ": ")
@@ -109,16 +124,16 @@ func HyperparamRow(_ key: String, _ value: String) -> some View{
     }
 }
 
-func HyperparamConfig(_ viewModel: JobInfoViewModel) -> some View {
+func Config(_ job: ComplexJob) -> some View {
     // var output = ""
-    let hyperparameters = viewModel.jobDetails?.hyperparameters ?? [:]
+    let config = job.config
     
     return VStack{
         Text("Model Parameters")
             .modifier(Title2Modifier())
             .bold()
-        ForEach(hyperparameters.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
-            HyperparamRow(key, value)
+        ForEach(config.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
+            ConfigRow(key, value)
         }
     }
 }
@@ -231,8 +246,8 @@ func HyperparamConfig(_ viewModel: JobInfoViewModel) -> some View {
                     ActionButton(action:"Start")
                         .padding(.leading)
                     ActionButton(action:"Stop")
-                    ActionButton(action:"Pause")
-                        .padding(.trailing)
+//                    ActionButton(action:"Pause")
+//                        .padding(.trailing)
                     
                 }
                 

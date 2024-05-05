@@ -10,9 +10,7 @@ import SwiftUI
 struct JobDashboardView: View {
 //    @State private var isPopoverPresented = false
 //    @State private var clusterData = ClusterData(name: "", port: "", publicKey: "")
-    @StateObject private var viewModel = JobsViewModel()
-//    @State private var currentJobs: [JobInfo] = []
-//    @State private var pastJobs: [JobInfo] = []
+    @StateObject private var vm = JobDashboardViewModel()
     
 
     var body: some View {
@@ -22,35 +20,25 @@ struct JobDashboardView: View {
                     .modifier(MainTitleModifier())
                 Spacer()
                 
-                JobListSection("Current Projects", jobs: viewModel.currentJobs)
-                    .onAppear(){
-                        // get API data when the page appears and run classification function
-                        viewModel.fetchData(url: "http://10.48.85.83:8000/api/v1/jobs")
-                    }
-                JobListSection("Past Projects", jobs: viewModel.pastJobs)
-                    .onAppear(){
-                        // get API data when the page appears and run classification function
-                        viewModel.fetchData(url: "http://10.48.85.83:8000/api/v1/jobs")
-                    }
+                JobListSection("Current Projects", vm, jobs: vm.currentJobs)
+                JobListSection("Past Projects", vm, jobs: vm.pastJobs)
                 Divider().background(Color.background)
             
             }
             .modifier(MainVStackModifier())
-            
+            .onAppear {
+                vm.refresh()
+            }
         }
     }
 }
 
-
-
-
-
-func JobListSection(_ sectionTitle: String, jobs: [String: JobInfo]) -> some View {
+func JobListSection(_ sectionTitle: String, _ vm: JobDashboardViewModel, jobs: [Int: PrimitiveJob]) -> some View {
     return VStack{
         Section() {
             VStack{
                 JobSectionTitle(sectionTitle)
-                JobsList(jobsList: jobs)
+                JobsList(vm, jobs: jobs)
             }
         }
         .modifier(ListVStackModifier())
@@ -64,7 +52,7 @@ func JobSectionTitle(_ text: String) -> some View {
         .padding(.bottom,-40)
 }
 
-private func JobInfoRow(job : JobInfo) -> some View {
+private func PrimitiveJobRow(job : PrimitiveJob) -> some View {
     HStack{
         VStack(alignment:.leading){
             Text(job.name)
@@ -88,18 +76,21 @@ private func JobInfoRow(job : JobInfo) -> some View {
     }
 }
 
-private func JobsList(jobsList : [String: JobInfo]) -> some View {
+private func JobsList(_ vm: JobDashboardViewModel, jobs: [Int: PrimitiveJob]) -> some View {
     List
     {
-        ForEach(jobsList.sorted(by: { $0.key < $1.key }), id: \.key) { key, jobInfo in
-            NavigationLink {
-                JobDetailsView(selectedJob: jobInfo, selectedJobId: key)
-            } label: {
-                JobInfoRow(job:jobInfo)
+        if jobs.count == 0 {
+            Text("No jobs yet!")
+        } else {
+            ForEach(jobs.sorted(by: { $0.key < $1.key }), id: \.key) { key, job in
+                NavigationLink {
+                    JobDetailsView(id: key)
+                } label: {
+                    PrimitiveJobRow(job: job)
+                }
+                
             }
-            
         }
-        
         
 //        ForEach(jobsList, id: \.self) {
 //            job in
@@ -111,6 +102,9 @@ private func JobsList(jobsList : [String: JobInfo]) -> some View {
         }
         .listRowBackground(Color.background)
         .scrollContentBackground(.hidden)
+        .refreshable {
+            vm.refresh()
+        }
         
     }
 
